@@ -136,7 +136,7 @@ end = struct
         match A.default_terminal t with
         | None -> ()
         | Some str ->
-            fprintf ppf "    | %s.T %s.T_%s -> %s\n" menhir menhir (Terminal.name t) str
+            fprintf ppf "    | %s.T T_%s -> %s\n" menhir (Terminal.name t) str
       );
     Nonterminal.iter (fun n ->
         match A.default_nonterminal n with

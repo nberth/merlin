@@ -33,8 +33,8 @@ let print_symbol () =
   let case_t t =
     match Terminal.kind t with
     | `REGULAR | `ERROR | `EOF ->
-      printf "  | %s.X (%s.T %s.T_%s) -> %s\n"
-        menhir menhir menhir
+      printf "  | %s.X (%s.T T_%s) -> %s\n"
+        menhir menhir
         (Terminal.name t)
         (symbol_printer (Terminal.name t) (Terminal.attributes t))
     | `PSEUDO -> ()
@@ -61,8 +61,8 @@ let print_value () =
   let case_t t =
     match Terminal.kind t with
     | `REGULAR | `ERROR | `EOF->
-      printf "  | %s.T %s.T_%s -> %s\n"
-        menhir menhir
+      printf "  | %s.T T_%s -> %s\n"
+        menhir
         (Terminal.name t)
         (value_printer (Terminal.name t) (Terminal.attributes t))
     | `PSEUDO -> ()
@@ -84,10 +84,10 @@ let print_token () =
   let case t =
     match Terminal.kind t with
     | `REGULAR | `EOF ->
-      printf "  | %s%s -> print_value (%s.T %s.T_%s) %s\n"
+      printf "  | %s%s -> print_value (%s.T T_%s) %s\n"
         (Terminal.name t)
         (match Terminal.typ t with | None -> "" | Some _typ -> " v")
-        menhir menhir
+        menhir
         (Terminal.name t)
         (match Terminal.typ t with | None -> "()" | Some _typ -> "v")
     | `PSEUDO | `ERROR -> ()
@@ -99,12 +99,12 @@ let print_token_of_terminal () =
   let case t =
     match Terminal.kind t with
     | `REGULAR | `EOF ->
-      printf "  | %s.T_%s -> %s%s\n"
-        menhir (Terminal.name t)
+      printf "  | T_%s -> %s%s\n"
+        (Terminal.name t)
         (Terminal.name t) (if Terminal.typ t <> None then " v" else "")
     | `ERROR ->
-      printf "  | %s.T_%s -> assert false\n"
-        menhir (Terminal.name t)
+      printf "  | T_%s -> assert false\n"
+        (Terminal.name t)
     | `PSEUDO -> ()
   in
   printf
